@@ -21,10 +21,14 @@ from typing import List
 # 方法二
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        d={}
-        for i in range(len(nums)):
-            if target-nums[i] in d:
-                return i,d[target-nums[i]]
-            d[nums[i]]=i
-solution=Solution()
-print(solution.twoSum([1,2,4,7],6))
+        """使用哈希表缓存之前的数字"""
+        tmp = dict()
+        for i in range(len(nums) - 1):
+            if target - nums[i] in tmp:
+                return [tmp[target - nums[i]], i]
+            tmp[nums[i]] = i
+        return []
+
+
+solution = Solution()
+print(solution.twoSum([1, 2, 4, 7], 6))
