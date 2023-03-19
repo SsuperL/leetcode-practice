@@ -9,32 +9,45 @@ nums[a] + nums[b] + nums[c] + nums[d] == target
 链接：https://leetcode-cn.com/problems/4sum
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
-from typing import List 
+from typing import List
+
+
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        """使用双指针"""
         nums.sort()
-        res=[]
-        if len(nums)<4:
+        res = []
+        if len(nums) < 4:
             return res
-        for i in range(len(nums)-3):
-            for j in range(i+1,len(nums)-2) :
-                left=j+1
-                right=len(nums)-1
-                while left<right:
-                    ident=nums[i]+nums[left]+nums[j]+nums[right]
-                    if ident==target:
-                        tmp=[nums[i],nums[left],nums[right],nums[j]]
-                        if tmp not in res:
-                            res.append(tmp)
-                        right-=1
-                    elif ident<target:
-                        left+=1
+        n = len(nums)
+        for i in range(len(nums) - 3):
+            # 对i去重
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            # 四元组第二个元素的循环
+            for j in range(i + 1, len(nums) - 2):
+                # 对 j 去重
+                if j > i + 1 and nums[j] == nums[j - 1]:
+                    continue
+                # 循环内相向双指针
+                left, right = j + 1, n - 1
+                while left < right:
+                    tmp = nums[left] + nums[right] + nums[i] + nums[j]
+                    if tmp == target:
+                        res.append([nums[left], nums[right], nums[i], nums[j]])
+                        left += 1
+                        right -= 1
+                        # 去重
+                        while left < right and nums[left] == nums[left - 1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right + 1]:
+                            right -= 1
+                    elif tmp > target:
+                        right -= 1
                     else:
-                        right-=1
+                        left += 1
         return res
 
 
-soluton=Solution()
-print(soluton.fourSum([1,0,-1,0,-2,2],0))
-
-
+soluton = Solution()
+print(soluton.fourSum([1, 0, -1, 0, -2, 2], 0))
