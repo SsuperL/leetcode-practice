@@ -15,14 +15,54 @@
 
 class Solution:
     def reverseWords(self, s: str) -> str:
-        s_list = s.split()
-        left, right = 0, len(s_list) - 1
-        while left <= right:
-            s_list[left], s_list[right] = s_list[right], s_list[left]
-            left += 1
-            right -= 1
+        # 方法一：效率高但粗暴
+        # s_list = s.split()
+        # left, right = 0, len(s_list) - 1
+        # while left <= right:
+        #     s_list[left], s_list[right] = s_list[right], s_list[left]
+        #     left += 1
+        #     right -= 1
+        #
+        # return " ".join(s_list)
 
-        return " ".join(s_list)
+        # 方法二：先去除多余空格->反转整个字符串->反转字符串中但单个单词
+        def trim_space(s):
+            left, right = 0, len(s) - 1
+            res = []
+            # 去除头空格
+            while left < right and s[left] == " ":
+                left += 1
+            # 去除尾空格
+            while right > left and s[right] == " ":
+                right -= 1
+            while left <= right:
+                if s[left] != " ":
+                    res.append(s[left])
+                elif res[-1] != " ":
+                    res.append(s[left])
+                left += 1
+            return res
+
+        def reverse_all(s_list, left=0, right=0):
+            while left < right:
+                s_list[left], s_list[right] = s_list[right], s_list[left]
+                left += 1
+                right -= 1
+
+        def reverse_single(s_list):
+            l = len(s_list)
+            left, right = 0, 0
+            while left < l:
+                while right < l and s_list[right] != " ":
+                    right += 1
+                reverse_all(s_list, left, right - 1)
+                left = right + 1
+                right += 1
+
+        s_list = trim_space(s)
+        reverse_all(s_list, 0, len(s_list) - 1)
+        reverse_single(s_list)
+        return "".join(s_list)
 
 
 solution = Solution()
