@@ -28,6 +28,35 @@ class Solution:
         for i in digits:
             ans=[pre+suf for pre in ans for suf in d[i]]
         return ans
+    
+    def letterCombinations_2(self, digits):
+        map = ["","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"]
+        res = []
+        s =''
+        def backtracking(res,s,index):
+            if index == len(digits): # 结束条件
+                res.append(s)
+                return
+
+            digit=int(digits[index])
+
+            letters = map[digit]
+            for i in letters:
+                s+=i
+                backtracking(res,s,index+1) # 回溯下一个字符
+                s=s[:-1] # 删除最后一个添加的字符
+            
+            return
+        
+        if len(digits)==0:
+            return res
+        
+        backtracking(res,'',0)
+        return res
+        
+         
+            
+
 
 solution=Solution()
 print(solution.letterCombinations("234"))
