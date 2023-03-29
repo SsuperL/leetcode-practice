@@ -10,21 +10,20 @@
 链接：https://leetcode-cn.com/problems/valid-parentheses
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
+
+
 class Solution:
     def isValid(self, s: str) -> bool:
-        d={
-            ")":"(",
-            "}":"{",
-            "]":"["
-        }
-        l=[]
+        d = {")": "(", "}": "{", "]": "["}
+        l = []
         for i in s:
-            # 如果栈顶元素和当前元素匹配，则出栈，否则入栈
-            if len(l)!=0 and i in d and l[-1]==d[i]:
+            # 使用栈实现，如果栈不为空，且栈顶为左括号并与当前右括号匹配，则出栈，否则入栈
+            if len(l) > 0 and i in d and d[i] == l[-1]:
                 l.pop()
             else:
                 l.append(i)
-        return True if len(l)==0 else False
+        return len(l) == 0
 
-solution=Solution()
-print(solution.isValid("{[]}"))
+
+solution = Solution()
+print(solution.isValid("([)]"))
