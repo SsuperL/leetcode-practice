@@ -29,3 +29,20 @@ class Solution:
 
         traverse(root)
         return res
+
+    def postorderTraversal_2(self, root: Optional[TreeNode]) -> List[int]:
+        """后序遍历：迭代法"""
+        # 前序遍历顺序是：中->左->右, 调整遍历顺序：中->右->左，再反转数组即得到后序遍历（左->右->中）结果
+        res = []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if not node:
+                return res
+            res.append(node.val)
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+
+        return res[::-1]
