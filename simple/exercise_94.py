@@ -31,3 +31,23 @@ class Solution:
 
         traverse(root)
         return res
+
+    def inorderTraversal_2(self, root: Optional[TreeNode]) -> List[int]:
+        """中序遍历：迭代法"""
+        # 使用指针+栈
+        stack = []
+        res = []
+        cur = root
+        while cur or stack:
+            if cur:
+                # 当前节点不为空时持续将其和其左子节点入栈
+                stack.append(cur)
+                # 遍历左层子节点，直至最底层
+                cur = cur.left
+            else:
+                # 出栈并保存结果
+                cur = stack.pop()
+                res.append(cur.val)
+                # 将右子节点在下一个循环中入栈
+                cur = cur.right
+        return res
