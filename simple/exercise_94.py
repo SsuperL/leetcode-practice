@@ -51,3 +51,28 @@ class Solution:
                 # 将右子节点在下一个循环中入栈
                 cur = cur.right
         return res
+
+    def inorderTraversal_3(self, root: Optional[TreeNode]) -> List[int]:
+        """中序遍历：统一迭代法，栈+标记法"""
+        res = []
+        if not root:
+            return res
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node:
+                if node.right:
+                    # 右
+                    stack.append(node.right)
+                # 空节点不入栈
+                stack.append(node)
+                # 在未处理的节点后做标记
+                stack.append(None)
+                # 左
+                if node.left:
+                    stack.append(node.left)
+            else:
+                node = stack.pop()
+                res.append(node.val)
+
+        return res

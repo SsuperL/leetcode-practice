@@ -52,3 +52,30 @@ class Solution:
             if node.left:
                 stack.append(node.left)
         return res
+
+    def preorderTraversal_3(self, root: Optional[TreeNode]) -> List[int]:
+        """前序遍历：统一迭代法，前中后序遍历使用统一的迭代方法，使用栈+标记法，
+        将待处理的节点入栈，将要处理的节点后入栈 None ，只有当 None 出栈后才能将其后的节点加入结果列表"""
+        res = []
+        if not root:
+            return res
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node:
+                # 空节点不入栈,先进后出
+                if node.right:
+                    # 右
+                    stack.append(node.right)
+
+                # 左
+                if node.left:
+                    stack.append(node.left)
+                stack.append(node)
+                # 在未处理的节点后做标记
+                stack.append(None)
+            else:
+                node = stack.pop()
+                res.append(node.val)
+
+        return res

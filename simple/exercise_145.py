@@ -46,3 +46,29 @@ class Solution:
                 stack.append(node.right)
 
         return res[::-1]
+
+    def postorderTraversal_3(self, root: Optional[TreeNode]) -> List[int]:
+        """后序遍历：统一迭代法，使用栈+标记法"""
+        res = []
+        if not root:
+            return res
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node:
+                # 空节点不入栈，先进后出
+                stack.append(node)
+                # 在未处理的节点后做标记
+                stack.append(None)
+                if node.right:
+                    # 右
+                    stack.append(node.right)
+
+                # 左
+                if node.left:
+                    stack.append(node.left)
+            else:
+                node = stack.pop()
+                res.append(node.val)
+
+        return res
